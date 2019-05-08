@@ -8,8 +8,6 @@ function generateRandomString() {
 }    
 generateRandomString();
     
-
-
 app.set("view engine", "ejs");
 
 var urlDatabase = {
@@ -35,7 +33,7 @@ app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
   });
 
   app.get("/urls/:shortURL", (req, res) => {
-    let templateVars = { shortURL: req.params.shortURL, longURL: req.params.longURL };
+    let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
     res.render("urls_show", templateVars);
 
   });
@@ -44,6 +42,12 @@ app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
     delete urlDatabase[req.params.shortURL];
     res.redirect("/urls");
   });
+
+app.post("/urls/:shortURL/change", (req, res) => { // changes input urls_show.ejs
+    console.log()
+    res.redirect("/urls");
+
+  })
 
 
 //   app.get("/urls", (req, res) => {
@@ -62,6 +66,11 @@ res.redirect(longURL);
   app.post("/urls", (req, res) => {
     console.log(req.body);  // Log the POST request body to the console
     res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  });
+
+  app.post("/urls/:id", (req, res) => {   //POST to update the URL resource  
+    console.log(req.body);  
+    res.send("Ok");         
   });
 
   app.listen(PORT, () => {
