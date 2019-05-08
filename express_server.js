@@ -3,7 +3,7 @@ var app = express();
 var PORT = 8080; // default port 8080
 
 function generateRandomString() {
-    var alfaNum = Math.random().toString(36).substring(2, 8);
+    let alfaNum = Math.random().toString(36).substring(2, 8);
     console.log(alfaNum);
 }    
 generateRandomString();
@@ -44,6 +44,10 @@ app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
 //     let templateVars = { urls: urlDatabase };
 //     res.render("urls_index", templateVars);
 //   });
+            app.get("/u/:shortURL", (req, res) => {
+                const longURL = urlDatabase[req.params.shortURL];
+             res.redirect(longURL);
+            });
 
   app.get("/hello", (req, res) => {
     res.send("<html><body>Hello <b>World</b></body></html>\n");
