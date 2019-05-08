@@ -9,14 +9,21 @@ var urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
 
 app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
-    let templateVars = { urls: urlDatabase }; //keys is urls: this is the key
+    let templateVars = { urls: urlDatabase, }; //keys is urls: this is the key
     res.render("urls_index", templateVars);
+  });
+  
+  app.get("/urls/new", (req, res) => {
+    res.render("urls_new");
   });
 
   app.get("/urls/:shortURL", (req, res) => {
@@ -37,3 +44,4 @@ app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
   app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}!`);
   });
+
