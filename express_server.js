@@ -2,13 +2,12 @@ var express = require("express");
 var app = express();
 var PORT = 8080; // default port 8080
 
-function generateRandomString() {                                        //my function ramdom numbers
-    console.log(Math.random().toString(35).replace('0.', '') );
-    }
-    generateRandomString();
+function generateRandomString() {
+    var alfaNum = Math.random().toString(36).substring(2, 8);
+    console.log(alfaNum);
+}    
+generateRandomString();
     
-
-
 
 
 app.set("view engine", "ejs");
