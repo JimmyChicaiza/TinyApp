@@ -9,15 +9,24 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <title>TinyApp</title>
-
+<style type="text/css">
+    button{
+        border:20px double greenyellow;
+        border-radius:7px;
+        background:rgb(69, 161, 115);
+    }
+</style>
 </head>
 <body style="font-size:20px; padding:50px;">
+
     
-    <h1>>TINNYAPP</h1>   <br>
+
+   
+
+<h1>TINNYAPP</h1>   <br>
     <!-- Add EJS code here -->
-    <% for (var key in urls) { %>
-       
-        <strong><%= urls[key] %></strong> <br> 
+    <% for (var mykey in urls) { %> 
+      <li>  <strong><%= urls[mykey] %> <form method="POST" action="/urls/<%= mykey %>/delete"> <button type="submit">delete</button> </form> </strong> </li>
     <% } %>
 
     <link>here will go a nice link to take me somewhere </link> <br>
