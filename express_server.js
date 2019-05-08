@@ -13,9 +13,6 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
 
 app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
     let templateVars = { urls: urlDatabase }; //keys is urls: this is the key
@@ -25,7 +22,7 @@ app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
   app.get("/urls/:shortURL", (req, res) => {
     let templateVars = { shortURL: req.params.shortURL, longURL: req.params.longURL };
     res.render("urls_show", templateVars);
-    
+
   });
   
 //   app.get("/urls", (req, res) => {
@@ -37,3 +34,6 @@ app.get("/urls", (req, res) => { // maybe remove json form "/urls.json"
     res.send("<html><body>Hello <b>World</b></body></html>\n");
   });
 
+  app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}!`);
+  });
