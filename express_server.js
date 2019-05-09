@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 
 app.get("/urls", (req, res) => {
   // maybe remove json form "/urls.json"
-  let templateVars = { urls: urlDatabase }; //keys is urls: this is the key
+  let templateVars = { urls: urlDatabase }; // urls: this is the key
   res.render("urls_index", templateVars);
 });
 
@@ -45,8 +45,6 @@ app.get("/urls/:shortURL", (req, res) => {
 
 ////ALL MY POST - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
 
-
-
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
@@ -63,37 +61,37 @@ app.get("/hello", (req, res) => {
 //HERE GOES ALL THE POST
 
 app.post("/urls/:shortURL/delete", (req, res) => {
-    delete urlDatabase[req.params.shortURL];
-    res.redirect("/urls");
+  delete urlDatabase[req.params.longtURL];
+  res.redirect("/urls");
 });
 
-app.post("/urls/:shortURL/show", (req, res) => {
-const keyname = generateRandomString();
-urlDatabase[keyname] = "mate";
-var urlDatabase = {
-    "b2xVn2": "http://www.lighthouselabs.ca",
-    "9sm5xK": "http://www.google.com",
-    "b2xVn26": "mate"
-};
+app.post("/urls/:shortURL/show", (req, res) => {  //**********
+  const keyname = generateRandomString();
+  const toReplaceId = req.body.newURL; //I need to create a variable that replace urlDatabase.
+  urlDatabase[keyname] = toReplaceId;
 
-res.redirect("/urls");
+  console.log({ urlDatabase }); //to console.log ({}) to see the full object.
+  // var urlDatabase = {
+  //     "b2xVn2": "http://www.lighthouselabs.ca",
+  //     "9sm5xK": "http://www.google.com",
+  //     }
+
+  res.render("urls_show");
 });
 
 app.post("/urls", (req, res) => {
-const longUrl = req.body.longURL;
-
+  const longUrl = req.body.longURL;
   console.log(req.body); // Log the POST request body to the console
   res.send("Ok"); // Respond with 'Ok' (we will replace this)
 });
 
 app.post("/urls/:id", (req, res) => {
   //POST to update the URL resource
-console.log(req.body);
-res.send("Ok");
+  console.log(req.body);
+  res.send("Ok");
 });
 
-
-// ALL MY LISTEN TO SEE IF THE PROGRAM WORKS. 
+// ALL MY LISTEN TO SEE IF THE PROGRAM WORKS.
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
