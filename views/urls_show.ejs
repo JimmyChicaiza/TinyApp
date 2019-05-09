@@ -17,14 +17,12 @@
 
     <h1>ShortUrl : <%= shortURL  %></h1>   <br>
 
-  <!--Always REMEMBER THIS <%= javascript goes here%> -->
+    <form class="form-inline" action="/urls/<%= shortURL  %>" method="POST">
 
-    <form class="form-inline" action="/urls/<%= shortURL  %>/show" method="POST">
-         
-                <div class="form-group mb-2">
-    
-        <input class="form-control" type="text" name="newURL" placeholder="<%= longURL  %>" style="width: 300px; margin: 1em">
-        <button type="submit" class="btn btn-primary">UPDATE</button> <br>
+    <div class="form-group mb-2">
+       
+     <input class="form-control" type="text" name="newURL" value="<%= longURL  %>" style="width: 300px; margin: 1em">
+     <button type="submit" class="btn btn-primary"> UPDATE </button> <br>
 
 
 </body>
