@@ -13,14 +13,14 @@
 </head>
 <body style="font-size:20px; padding:50px;">
     
-    <h1>TINNYAPP / THE URL <%= shortURL  %></h1>   <br>
+    <h1>ShortUrl : <%= shortURL  %></h1>   <br>
 
-    <form class="form-inline" action="/urls/<%= shortURL  %>/change" method="POST">
+    <form class="form-inline" action="/urls/<%= shortURL  %>/show" method="POST">   <!--Alwhay REMEMBER THIS <%= shortURL  %>-->
         <div class="form-group mb-2">
-       <!--  <label for="longURL">Enter something:</label> -->
+    
           <input class="form-control" type="text" name="longURL" placeholder="<%= longURL  %>" style="width: 300px; margin: 1em">
-          <button type="submit" class="btn btn-primary">ENVOYER CECI QUELQUE PART</button>
-  
+          <button type="submit" class="btn btn-primary">Change URL with input</button> <br>
+
 
 </body>
 </html>
