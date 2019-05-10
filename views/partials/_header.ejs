@@ -1,19 +1,24 @@
 <!--CREATE A FORM THAT    POST   TO /login  -->
 
 <h1>TINNYAPP</h1>
-<!-- <h4>USER NAME : </h4>-->
+<h2>USER NAME : </h4>
+ 
+    <% if(!username){ %>
 
 <form action="/login" method="post">
-  
-    <% if(true){ %>
-
-    <input type="text" name="username" placeholder= <%= username%> />
-     <% } else{ %>  
-     <form action="/logout" method="post">
-     <% } %>    
-     <input type="submit" value="Submit" />
-    
+    <input type="text" name="username" placeholder= "<%= username %>" />
+    <input type="submit" value="Login" />
 
 </form>
+
+    <% } else { %>  
+
+<form action="/logout" method="post">
+    <input type="text" name="username" placeholder= "<%= username %>"  disabled/>
+    <input type="submit" value="Logout" />
+</form>    
+
+    <% } %>    
+
 <br>
 <br>
