@@ -1,1 +1,19 @@
-<h1>TinyApp</h1>
+<!--CREATE A FORM THAT    POST   TO /login  -->
+
+<h1>TINNYAPP</h1>
+<!-- <h4>USER NAME : </h4>-->
+
+<form action="/login" method="post">
+  
+    <% if(true){ %>
+
+    <input type="text" name="username" placeholder= <%= username%> />
+     <% } else{ %>  
+     <form action="/logout" method="post">
+     <% } %>    
+     <input type="submit" value="Submit" />
+    
+
+</form>
+<br>
+<br>

@@ -1,5 +1,12 @@
-var express = require("express");
-var app = express();
+const express = require("express");
+const app = express();
+const cookieParser = require('cookie-parser');
+const bodyParser = require("body-parser");
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.use(cookieParser())
 
 var PORT = 8080; // default port 8080
 
@@ -9,15 +16,10 @@ function generateRandomString() {
     .substring(2, 8);
 }
 
-app.set("view engine", "ejs");
-
 var urlDatabase = {
-  b2xVn2: "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};
-
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
+    b2xVn2: "http://www.lighthouselabs.ca",
+    "9sm5xK": "http://www.google.com"
+  };
 
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
@@ -27,18 +29,26 @@ app.get("/", (req, res) => {
 
 app.get("/urls", (req, res) => {
   // maybe remove json form "/urls.json"
-  let templateVars = { urls: urlDatabase }; // urls: this is the key
+  let templateVars = { 
+    urls: urlDatabase,
+    username: req.cookies["username"],
+};   
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+    let templateVars = { 
+                username: req.cookies["username"],
+            }
+  res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = {
     shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL]
+    longURL: urlDatabase[req.params.shortURL],
+    username: req.cookies["username"],
+
   };
   res.render("urls_show", templateVars);
 });
@@ -46,7 +56,10 @@ app.get("/urls/:shortURL", (req, res) => {
 ////ALL MY POST - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = { 
+      urls: urlDatabase,
+      username: req.cookies["username"],
+    };
   res.render("urls_index", templateVars);
 });
 
@@ -61,9 +74,11 @@ app.get("/hello", (req, res) => {
 
 //HERE GOES ALL THE POST
 
-app.post("/urls/:shortURL/delete", (req, res) => {
-  delete urlDatabase[req.params.longtURL];
+app.post("/urls/:longURL/delete", (req, res) => {
+  delete urlDatabase[req.params.longURL];
+  console.log(urlDatabase);
   res.redirect("/urls");
+
 });
 
 app.post("/urls/:shortURL", (req, res) => {  //**********
@@ -92,8 +107,15 @@ console.log(req.body);
 res.send("Ok");
 });
 
+app.post("/login", (req,res) => {
+
+res.cookie("username", req.body.username);
+res.redirect("/urls");
+});
+
 // ALL MY LISTEN TO SEE IF THE PROGRAM WORKS.
 
 app.listen(PORT, () => {
 console.log(`Example app listening on port ${PORT}!`);
 });
+

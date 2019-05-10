@@ -14,11 +14,15 @@
 </head>
 <body style="font-size:20px; padding:50px;">
 
-<h1>TINNYAPP</h1>   <br>
+    <% include partials/_header %>
+
+
     <!-- Add EJS code here -->
-    
+    <br>
+    <br>
+ 
     <% for (var mykey in urls) { %> 
-      <li>  <label for="longURL"> Here goes my shortURL :  </label><strong><%= urls[mykey] %> <form method="POST" action="/urls/<%= mykey %>/delete"> <button type="submit">delete</button> </form> </strong> </li>
+      <li>  <label for="longURL"> <%= mykey %> :  </label><strong><%= urls[mykey] %> <form method="POST" action="/urls/<%= mykey %>/delete"> <button type="submit">delete</button> </form> </strong> </li>
     <% } %>
 
     <link>here will go a nice link to take me somewhere </link> <br>
