@@ -21,13 +21,26 @@ var urlDatabase = {
     "9sm5xK": "http://www.google.com"
   };
 
+  const users = { 
+    "userRandomID": {
+      id: "userRandomID", 
+      email: "user@example.com", 
+      password: "purple-monkey-dinosaur"
+    },
+   "user2RandomID": {
+      id: "user2RandomID", 
+      email: "user2@example.com", 
+      password: "dishwasher-funk"
+    }
+  }
+
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
-app.get("/urls", (req, res) => {
+app.get("/urls", (req, res) => { 
   // maybe remove json form "/urls.json"
   let templateVars = { 
     urls: urlDatabase,
@@ -53,7 +66,7 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-////ALL MY POST - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
+////ALL MY GETS - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
 
 app.get("/urls", (req, res) => {
   let templateVars = { 
@@ -70,6 +83,11 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
+});
+
+app.get("/register", (req, res) => {
+
+    res.render("/register")
 });
 
 //HERE GOES ALL THE POST
@@ -107,8 +125,16 @@ console.log(req.body);
 res.send("Ok");
 });
 
-app.post("/login", (req,res) => {
+app.post("/register", (req, res) => {
+//gereate ramdom id
+//add new user to object user
+//body parser
+//user id COOKIE? do i need this here?
+//Redirect the user to the /urls page.
+res.send("/register");
+});
 
+app.post("/login", (req,res) => {
 res.cookie("username", req.body.username);
 res.redirect("/urls");
 });
