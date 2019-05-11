@@ -79,6 +79,7 @@ app.get("/urls/:shortURL", (req, res) => {
 
 ////ALL MY GETS - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
 
+//GET WITH URLs DATABASE. 
 app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase,
@@ -96,6 +97,7 @@ app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+//get register end point
 app.get("/register", (req, res) => {
   res.render("/register");
 });
@@ -125,7 +127,7 @@ app.post("/urls/:id", (req, res) => {
   console.log(req.body);
   res.send("Ok");
 });
-
+//POST WITH REGISTRATION FOR NEW USERS ID
 app.post("/register", (req, res) => {
     const { email, password } = req.body;
     const userId = addNewUser(email, password);
