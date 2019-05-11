@@ -21,7 +21,8 @@ var urlDatabase = {
     "9sm5xK": "http://www.google.com"
   };
 
-  const users = { 
+  const usersDb = {
+
     "userRandomID": {
       id: "userRandomID", 
       email: "user@example.com", 
@@ -32,7 +33,20 @@ var urlDatabase = {
       email: "user2@example.com", 
       password: "dishwasher-funk"
     }
-  }
+  };
+
+  //function to create a new user;
+  const addNewUser = (name, email, password) => {
+    const id = generateRandomString();
+    const newUserObj = {
+        id,
+        email,
+        password
+    };
+    usersDb[id] = newUserObj;
+    return id;
+
+  };
 
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
@@ -99,7 +113,8 @@ app.post("/urls/:longURL/delete", (req, res) => {
 
 });
 
-app.post("/urls/:shortURL", (req, res) => {  //**********
+app.post("/urls/:shortURL", (req, res) => {  
+    
   const shortURL = req.params.shortURL;
   const toReplaceId = req.body.newURL; //I need to create a variable that replace urlDatabase.
   urlDatabase[shortURL] = toReplaceId;
@@ -125,13 +140,17 @@ console.log(req.body);
 res.send("Ok");
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", (req, res) => { // ****************************
 //gereate ramdom id
 //add new user to object user
 //body parser
 //user id COOKIE? do i need this here?
 //Redirect the user to the /urls page.
-res.send("/register");
+const {email, password } = req.body;
+const userId = addNewUser(email,password);
+res.cookie("user_id", userId); 
+
+res.render("/register");
 });
 
 app.post("/login", (req,res) => {
