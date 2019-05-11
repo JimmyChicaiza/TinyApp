@@ -9,12 +9,11 @@
 <form action="/login" method="post">
     <input type="text" name="username" placeholder= "<%= username %>" />
     <input type="submit" value="Login" />
-<!--links -->
+<!--NEW LINKS-->
+<p><h6>REGISTER  |  </h6><a href="page2.html">page 2</a></p> <p><h6>LOGIN </h6><a href="page2.html">page 2</a></p>
 </form>
-<!-- <p></p><a href="register.ejs"><h6>REGISTER</h6></a></p> <p><a href="login.ejs"><h6>LOGIN </h6></a></p>  -->
 
-<!--IF NOT LOGIN (LOGOUT)-->
-<% } else { %>  
+    <% } else { %>  
 
 <form action="/logout" method="post">
     <input type="text" name="username" placeholder= "<%= username %>"  disabled/>
@@ -22,6 +21,6 @@
 </form>    
 
     <% } %>    
-    
+
 <br>
 <br>

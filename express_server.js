@@ -42,8 +42,8 @@ const addNewUser = (email, password) => {
     password
   };
   usersDb[id] = newUserObj;
- //console.log(newUserObj);
-  return id;  
+  //console.log(newUserObj);
+  return id;
 };
 
 
@@ -83,7 +83,7 @@ app.get("/urls/:shortURL", (req, res) => {
 
 //GET WITH LOGIN PAGE.
 app.get("/login", (req, res) => {
-  
+
 })
 
 //GET WITH URLs DATABASE.
@@ -137,8 +137,8 @@ app.post("/urls/:id", (req, res) => {
 //POST WITH REGISTRATION FOR NEW USERS ID
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
-//if email and passwords are empty return error 400 status code
-  if (email.length === 0 || password.length === 0){
+  //if email and passwords are empty return error 400 status code
+  if (email.length === 0 || password.length === 0) {
     res.status(400).send('WOWOWOWOWOWOW! YOU FORGOT SOMETHING.')
     return;
   }
