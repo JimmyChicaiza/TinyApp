@@ -1,12 +1,11 @@
 const express = require("express");
 const app = express();
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-app.use(cookieParser())
+app.use(cookieParser());
 
 var PORT = 8080; // default port 8080
 
@@ -17,36 +16,35 @@ function generateRandomString() {
 }
 
 var urlDatabase = {
-    b2xVn2: "http://www.lighthouselabs.ca",
-    "9sm5xK": "http://www.google.com"
+  b2xVn2: "http://www.lighthouselabs.ca",
+  "9sm5xK": "http://www.google.com"
+};
+
+const usersDb = {
+  userRandomID: {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur"
+  },
+  user2RandomID: {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk"
+  }
+};
+
+//function to create a new user;
+const addNewUser = (email, password) => {
+  const id = generateRandomString();
+  const newUserObj = {
+    id,
+    email,
+    password
   };
 
-  const usersDb = {
-
-    "userRandomID": {
-      id: "userRandomID", 
-      email: "user@example.com", 
-      password: "purple-monkey-dinosaur"
-    },
-   "user2RandomID": {
-      id: "user2RandomID", 
-      email: "user2@example.com", 
-      password: "dishwasher-funk"
-    }
-  };
-
-  //function to create a new user;
-  const addNewUser = (name, email, password) => {
-    const id = generateRandomString();
-    const newUserObj = {
-        id,
-        email,
-        password
-    };
-    usersDb[id] = newUserObj;
-    return id;
-
-  };
+  usersDb[id] = newUserObj;
+  return id;
+};
 
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
@@ -54,19 +52,19 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
-app.get("/urls", (req, res) => { 
+app.get("/urls", (req, res) => {
   // maybe remove json form "/urls.json"
-  let templateVars = { 
+  let templateVars = {
     urls: urlDatabase,
-    username: req.cookies["username"],
-};   
+    username: req.cookies["username"]
+  };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-    let templateVars = { 
-    username: req.cookies["username"],
-            }
+  let templateVars = {
+    username: req.cookies["username"]
+  };
   res.render("urls_new", templateVars);
 });
 
@@ -74,8 +72,7 @@ app.get("/urls/:shortURL", (req, res) => {
   let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
-    username: req.cookies["username"],
-
+    username: req.cookies["username"]
   };
   res.render("urls_show", templateVars);
 });
@@ -83,10 +80,10 @@ app.get("/urls/:shortURL", (req, res) => {
 ////ALL MY GETS - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
 
 app.get("/urls", (req, res) => {
-  let templateVars = { 
-      urls: urlDatabase,
-      username: req.cookies["username"],
-    };
+  let templateVars = {
+    urls: urlDatabase,
+    username: req.cookies["username"]
+  };
   res.render("urls_index", templateVars);
 });
 
@@ -100,8 +97,7 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-
-    res.render("/register")
+  res.render("/register");
 });
 
 //HERE GOES ALL THE POST
@@ -110,62 +106,45 @@ app.post("/urls/:longURL/delete", (req, res) => {
   delete urlDatabase[req.params.longURL];
   console.log(urlDatabase);
   res.redirect("/urls");
-
 });
 
-app.post("/urls/:shortURL", (req, res) => {  
-    
+app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  const toReplaceId = req.body.newURL; //I need to create a variable that replace urlDatabase.
+  const toReplaceId = req.body.newURL; 
   urlDatabase[shortURL] = toReplaceId;
-
-  //console.log({ urlDatabase }); //to console.log ({}) to see the full object.
-  // var urlDatabase = {
-  //     "b2xVn2": "http://www.lighthouselabs.ca",
-  //     "9sm5xK": "http://www.google.com",
-  //     }
-
   res.redirect("/urls");
 });
 
 app.post("/urls", (req, res) => {
-const longUrl = req.body.longURL;
-  console.log(req.body); // Log the POST request body to the console
-  res.send("Ok"); // Respond with 'Ok' (we will replace this)
+  const longUrl = req.body.longURL;
+  console.log(req.body); 
+  res.send("Ok"); 
 });
 
 app.post("/urls/:id", (req, res) => {
-  //POST to update the URL resource
-console.log(req.body);
-res.send("Ok");
+  console.log(req.body);
+  res.send("Ok");
 });
 
-app.post("/register", (req, res) => { // ****************************
-//gereate ramdom id
-//add new user to object user
-//body parser
-//user id COOKIE? do i need this here?
-//Redirect the user to the /urls page.
-const {email, password } = req.body;
-const userId = addNewUser(email,password);
-res.cookie("user_id", userId); 
-
-res.render("/register");
+app.post("/register", (req, res) => {
+    const { email, password } = req.body;
+    const userId = addNewUser(email, password);
+    res.cookie("user_id", userId);
+    res.render("register");
 });
 
-app.post("/login", (req,res) => {
-res.cookie("username", req.body.username);
-res.redirect("/urls");
+app.post("/login", (req, res) => {
+  res.cookie("username", req.body.username);
+  res.redirect("/urls");
 });
 
-app.post('/logout', (req, res) => {    
-    res.clearCookie("username");
-    res.redirect('/urls');  
- });  
+app.post("/logout", (req, res) => {
+  res.clearCookie("username");
+  res.redirect("/urls");
+});
 
 // ALL MY LISTEN TO SEE IF THE PROGRAM WORKS.
 
 app.listen(PORT, () => {
-console.log(`Example app listening on port ${PORT}!`);
+  console.log(`Example app listening on port ${PORT}!`);
 });
-
