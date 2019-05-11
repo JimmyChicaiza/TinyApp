@@ -41,10 +41,11 @@ const addNewUser = (email, password) => {
     email,
     password
   };
-
   usersDb[id] = newUserObj;
-  return id;
+ //console.log(newUserObj);
+  return id;  
 };
+
 
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
@@ -56,7 +57,8 @@ app.get("/urls", (req, res) => {
   // maybe remove json form "/urls.json"
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies["username"]
+    username: req.cookies["username"],
+    user: users[req.cookies["user_id"]]
   };
   res.render("urls_index", templateVars);
 });
@@ -79,7 +81,12 @@ app.get("/urls/:shortURL", (req, res) => {
 
 ////ALL MY GETS - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
 
-//GET WITH URLs DATABASE. 
+//GET WITH LOGIN PAGE.
+app.get("/login", (req, res) => {
+  
+})
+
+//GET WITH URLs DATABASE.
 app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase,
@@ -99,7 +106,7 @@ app.get("/hello", (req, res) => {
 
 //get register end point
 app.get("/register", (req, res) => {
-  res.render("/register");
+  res.render("register");
 });
 
 //HERE GOES ALL THE POST
@@ -112,15 +119,15 @@ app.post("/urls/:longURL/delete", (req, res) => {
 
 app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  const toReplaceId = req.body.newURL; 
+  const toReplaceId = req.body.newURL;
   urlDatabase[shortURL] = toReplaceId;
   res.redirect("/urls");
 });
 
 app.post("/urls", (req, res) => {
   const longUrl = req.body.longURL;
-  console.log(req.body); 
-  res.send("Ok"); 
+  console.log(req.body);
+  res.send("Ok");
 });
 
 app.post("/urls/:id", (req, res) => {
@@ -129,10 +136,16 @@ app.post("/urls/:id", (req, res) => {
 });
 //POST WITH REGISTRATION FOR NEW USERS ID
 app.post("/register", (req, res) => {
-    const { email, password } = req.body;
-    const userId = addNewUser(email, password);
-    res.cookie("user_id", userId);
-    res.render("register");
+  const { email, password } = req.body;
+//if email and passwords are empty return error 400 status code
+  if (email.length === 0 || password.length === 0){
+    res.status(400).send('WOWOWOWOWOWOW! YOU FORGOT SOMETHING.')
+    return;
+  }
+  const userId = addNewUser(email, password);
+  res.cookie("user_id", userId);
+  res.redirect("/urls");
+  console.log(userId);
 });
 
 app.post("/login", (req, res) => {
@@ -150,3 +163,4 @@ app.post("/logout", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
