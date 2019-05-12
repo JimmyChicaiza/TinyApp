@@ -58,7 +58,7 @@ app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase,
     username: req.cookies["username"],
-    user: users[req.cookies["user_id"]]
+    user: usersDb[req.cookies["user_id"]]
   };
   res.render("urls_index", templateVars);
 });
@@ -84,6 +84,7 @@ app.get("/urls/:shortURL", (req, res) => {
 //GET WITH LOGIN PAGE.
 app.get("/login", (req, res) => {
 
+  res.render("login");
 })
 
 //GET WITH URLs DATABASE.
@@ -106,6 +107,8 @@ app.get("/hello", (req, res) => {
 
 //get register end point
 app.get("/register", (req, res) => {
+  
+  
   res.render("register");
 });
 
@@ -144,8 +147,8 @@ app.post("/register", (req, res) => {
   }
   const userId = addNewUser(email, password);
   res.cookie("user_id", userId);
-  res.redirect("/urls");
-  console.log(userId);
+res.redirect("/urls");
+ // console.log(userId);
 });
 
 app.post("/login", (req, res) => {
@@ -163,4 +166,3 @@ app.post("/logout", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-

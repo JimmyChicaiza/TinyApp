@@ -4,14 +4,14 @@
     TinyApp</font>
     <h6> USER NAME : </h6>
  
-    <% if(!username){ %>
-<!--LOGIN FORM -->
+    <% if(!user){ %>
+<!--LOGIN FORM 
 <form action="/login" method="post">
     <input type="text" name="username" placeholder= "<%= username %>" />
     <input type="submit" value="Login" />
-<!--links -->
+links -->
 </form>
-<!-- <p></p><a href="register.ejs"><h6>REGISTER</h6></a></p> <p><a href="login.ejs"><h6>LOGIN </h6></a></p>  -->
+<a href="/register"><h6>REGISTER</h6></a> <a href="/login"><h6>LOGIN </h6></a>
 
 <!--IF NOT LOGIN (LOGOUT)-->
 <% } else { %>  
