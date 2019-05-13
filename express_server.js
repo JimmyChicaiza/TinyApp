@@ -46,7 +46,6 @@ const addNewUser = (email, password) => {
   return id;
 };
 
-
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
 app.get("/", (req, res) => {
@@ -76,16 +75,15 @@ app.get("/urls/:shortURL", (req, res) => {
     longURL: urlDatabase[req.params.shortURL],
     username: req.cookies["username"]
   };
-  res.render("urls_show", templateVars);
+  res.render("/urls_show", templateVars);
 });
 
 ////ALL MY GETS - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
 
 //GET WITH LOGIN PAGE.
 app.get("/login", (req, res) => {
-
   res.render("login");
-})
+});
 
 //GET WITH URLs DATABASE.
 app.get("/urls", (req, res) => {
@@ -93,7 +91,7 @@ app.get("/urls", (req, res) => {
     urls: urlDatabase,
     username: req.cookies["username"]
   };
-  res.render("urls_index", templateVars);
+  res.render("/urls_index", templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -107,8 +105,6 @@ app.get("/hello", (req, res) => {
 
 //get register end point
 app.get("/register", (req, res) => {
-  
-  
   res.render("register");
 });
 
@@ -142,18 +138,17 @@ app.post("/register", (req, res) => {
   const { email, password } = req.body;
   //if email and passwords are empty return error 400 status code
   if (email.length === 0 || password.length === 0) {
-    res.status(400).send('WOWOWOWOWOWOW! YOU FORGOT SOMETHING.')
+    res.status(400).send("WOWOWOWOWOWOW! YOU FORGOT SOMETHING.");
     return;
   }
   const userId = addNewUser(email, password);
   res.cookie("user_id", userId);
-res.redirect("/urls");
- // console.log(userId);
+  res.redirect("/urls");
+  // console.log(userId);
 });
 
 app.post("/login", (req, res) => {
- 
- // res.cookie("username", req.body.username);
+  // res.cookie("username", req.body.username);
   res.redirect("/urls");
 });
 
