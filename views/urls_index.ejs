@@ -3,31 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <!-- Bootstrap CSS -->
-
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <title>TinyApp</title>
 
 </style>
 </head>
 <body style="font-size:20px; padding:50px;">
-
-    <% include partials/_header %>
-
-
-    <!-- Add EJS code here -->
-    <br>
-    <br>
- 
-    <% for (var mykey in urls) { %> 
-      <li>  <label for="longURL"> <%= mykey %> :  </label><strong><%= urls[mykey] %> <form method="POST" action="/urls/<%= mykey %>/delete"> <button type="submit">delete</button> </form> </strong> </li>
-    <% } %>
-
-    <link>here will go a nice link to take me somewhere </link> <br>
-
-
-
+  <% include partials/_header %>
+  <!-- Add EJS code here -->
+  <% for (var mykey in urls) { %> 
+  <li> <label for="longURL"> <%= mykey %> :  </label><strong><%= urls[mykey] %> <form method="POST" action="/urls/<%= mykey %>/delete"> <a href=/urls_show> Edit URL   </a><button type="submit">delete</button> </form> </strong> </li>
+  <% } %>
+  <br>
+  <link>link comes here </link> 
+  <br>
 </body>
 </html>

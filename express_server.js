@@ -50,7 +50,7 @@ const addNewUser = (email, password) => {
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.send("Hello!"); // this is a simple string
 });
 
 app.get("/urls", (req, res) => {
@@ -152,7 +152,8 @@ res.redirect("/urls");
 });
 
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
+ 
+ // res.cookie("username", req.body.username);
   res.redirect("/urls");
 });
 

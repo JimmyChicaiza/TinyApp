@@ -1,27 +1,28 @@
 <!--CREATE A FORM THAT    POST   TO /login  -->
 
-<font size="7">
-    TinyApp</font>
-    <h6> USER NAME : </h6>
- 
+<font size="7">TinyApp</font>
+<!-- <h6> USER NAME : </h6> -->
+<% /login %>
     <% if(!user){ %>
-<!--LOGIN FORM 
-<form action="/login" method="post">
-    <input type="text" name="username" placeholder= "<%= username %>" />
-    <input type="submit" value="Login" />
-links -->
+        <!--LOGIN FORM
+<form action="/login" method="post"><input type="text" name="username" placeholder= "<%= username %>" /> <input type="submit" value="Login" /> links -->
+        <a href="/register">
+            <h6>REGISTER</h6>
+        </a> <a href="/login">
+            <h6>LOGIN</h6>
+        </a>
+    </p>
 </form>
-<a href="/register"><h6>REGISTER</h6></a> <a href="/login"><h6>LOGIN </h6></a>
+<br />
 
 <!--IF NOT LOGIN (LOGOUT)-->
-<% } else { %>  
+<% } else { %>
 
-<form action="/logout" method="post">
-    <input type="text" name="username" placeholder= "<%= username %>"  disabled/>
-    <input type="submit" value="Logout" />
-</form>    
+    <form action="/logout" method="post">
+        <!-- <input type="text" name="username" placeholder= "<%= username %>"  disabled/> -->
+        <input type="submit" value="Logout" />
+    </form>
 
-    <% } %>    
-    
-<br>
-<br>
+    <% } %>
+
+    </br>
