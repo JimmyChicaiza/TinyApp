@@ -75,7 +75,7 @@ app.get("/urls/:shortURL", (req, res) => {
     longURL: urlDatabase[req.params.shortURL],
     username: req.cookies["username"]
   };
-  res.render("/urls_show", templateVars);
+  res.render("urls_show", templateVars);
 });
 
 ////ALL MY GETS - UPDATES MADE ON THE WEBPAGE. INPUTS THAT i CAN RECEIVE AND WORK ON.
