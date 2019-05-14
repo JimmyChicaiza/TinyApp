@@ -11,12 +11,23 @@
 </head>
 <body style="font-size:20px; padding:50px;">
   <% include partials/_header %>
-  <!-- Add EJS code here -->
-  <% for (var mykey in urls) { %> 
-  <li> <label for="longURL"> <%= mykey %> :  </label><strong><%= urls[mykey].longURL %> <form method="POST" action="/urls/<%= mykey %>/delete"> <a href="urls/urls_show"> Edit URL   </a><button type="submit">delete</button> </form> </strong> </li>
-  <% } %>
-  <br>
-  <link>link comes here </link> 
-  <br>
-</body>
+
+        <form action="/register" method="post">
+
+            <label for="email">Email</label>
+            <input
+
+                type="email"
+                name="email">
+
+            <label for="password">Password</label>
+            <input
+
+                type="password"
+                name="password">
+
+            <input type="submit" value="Register">
+
+        </body>
+    </form>
 </html>
