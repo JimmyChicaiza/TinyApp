@@ -1,24 +1,19 @@
 <!--CREATE A FORM THAT    POST   TO /login  -->
 
 <font size="7">TinyApp</font>
-<!-- <h6> USER NAME : </h6> -->
 
-    <% if(!user){ %>
+<% if(!user){ %>
    
         <a href="/register"><h6>REGISTER</h6> </a> 
         <a href="/login"><h6>LOGIN</h6></a> 
-       
         <form action="/logout" method="post"> <input type="submit" value="Logout" /> </form>
-</form>
-<br />
 
-<!--this comments does not remove the JavaScript if you use them so becarefull!!!!!!! --> 
+    <br />
+
 <% } else { %>
     
     <h3>Welcome user: <%= user.email %></h3> 
-    
     <form action="/logout" method="post"> <input type="submit" value="Logout" /> </form>
 
-    <% } %>
-
-    </br>
+<% } %>
+</br>
