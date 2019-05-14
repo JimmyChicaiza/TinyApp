@@ -5,12 +5,10 @@
 
     <% if(!user){ %>
    
-        <a href="/register">
-            <h6>REGISTER</h6>
-        </a> <a href="/login">
-            <h6>LOGIN</h6>
-        </a>
-    </p>
+        <a href="/register"><h6>REGISTER</h6> </a> 
+        <a href="/login"><h6>LOGIN</h6></a> 
+       
+        <form action="/logout" method="post"> <input type="submit" value="Logout" /> </form>
 </form>
 <br />
 

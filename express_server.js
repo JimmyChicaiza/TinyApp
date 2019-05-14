@@ -1,12 +1,17 @@
 const express = require("express");
 const app = express();
-const cookieParser = require("cookie-parser");
+
 const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
+const cookieSession = require('cookie-session')
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-app.use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: ["qwerty",""],
+ }));
 
 var PORT = 8080; // default port 8080
 
@@ -87,14 +92,14 @@ app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase,
    // username: req.cookies["username"],
-    user: usersDb[req.cookies["user_id"]]
+    user: usersDb[req.session.user_id]
   };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {   //****************
  
- const user = usersDb[req.cookies["user_id"]]
+ const user = usersDb[req.session.user_id]
  if (!user) {
    res.redirect("/login"); 
  return ;
@@ -110,7 +115,7 @@ app.get("/urls/:shortURL", (req, res) => {
   let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
-    user: usersDb[req.cookies["user_id"]]
+    user: usersDb[req.session.user_id]
    // username: req.cookies["username"]
   };
   res.render("urls_show", templateVars);
@@ -127,7 +132,7 @@ app.get("/login", (req, res) => {
 app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase,
-    urls: urlsForUser(req.cookies["user_id"])
+    urls: urlsForUser(req.session.user_id)
   };
   res.render("/urls_index", templateVars);
 });
@@ -143,7 +148,7 @@ app.get("/hello", (req, res) => {
 
 //get register end point
 app.get("/register", (req, res) => {   
-  const userID = req.cookies["user_id"]; //getting the user_id from the cookies
+  const userID = req.session.user_id; //getting the user_id from the cookies
   const templateVars = {
     user: usersDb[userID],
   }
@@ -198,7 +203,8 @@ app.post("/login", (req, res) => {
  
 if (user && bcrypt.compareSync(password, user.password)){ 
  //if (user && user.password === password){
-      res.cookie("user_id", user.id) 
+     // plus besoin / res.cookie("user_id", user.id) 
+     req.session.user_id = user.id;                 //**********************************************
       res.redirect("/urls");
     } else {
       res.status(403).send("Email or Password is invalid");
@@ -207,7 +213,8 @@ if (user && bcrypt.compareSync(password, user.password)){
 
 app.post("/logout", (req, res) => {
  // res.clearCookie("username");
-  res.redirect("/");
+ req.session = null; 
+ res.redirect("/");
 });
 
 // ALL MY LISTEN TO SEE IF THE PROGRAM WORKS.
