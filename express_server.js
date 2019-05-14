@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const bcrypt = require('bcrypt');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -15,10 +16,10 @@ function generateRandomString() {
     .substring(2, 8);
 }
 
-var urlDatabase = {
-  b2xVn2: "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};
+// var urlDatabase = {
+//   b2xVn2: "http://www.lighthouselabs.ca",
+//   "9sm5xK": "http://www.google.com"
+// };
 
 const usersDb = {
   userRandomID: {
@@ -32,19 +33,48 @@ const usersDb = {
     password: "dishwasher-funk"
   }
 };
+//URLS DATABASE
+
+const urlDatabase = {
+  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
+  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
+  
+};
 
 //function to create a new user;
-const addNewUser = (email, password) => {
+const addNewUser = (email, password) => { //****************
   const id = generateRandomString();
   const newUserObj = {
     id,
     email,
-    password
+    password: bcrypt.hashSync(password, 10)
   };
   usersDb[id] = newUserObj;
   //console.log(newUserObj);
   return id;
 };
+
+function findUser(email) {
+  for (var userIdKey in usersDb){
+    if (email === usersDb[userIdKey].email) {
+      return usersDb[userIdKey];
+      } 
+  }
+  return false;
+};
+
+//FUNTION TO RETURN USERS WEBSITES
+
+function urlsForUser(id){
+const userUrls = {};
+for (const urlLoop in urlDatabase){
+ if (urlDatabase[shortURL].userID === id) {
+  urlDb[urlLoop] = urlDatabase[urlLoop];
+  }
+}
+return userUrls;
+};
+
 
 //ALL MY GETs - EVERYTHING THAT THE USER WILL SEE DISPLAY ON THE WEB BROWSER.
 
@@ -56,24 +86,32 @@ app.get("/urls", (req, res) => {
   // maybe remove json form "/urls.json"
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies["username"],
+   // username: req.cookies["username"],
     user: usersDb[req.cookies["user_id"]]
   };
   res.render("urls_index", templateVars);
 });
 
-app.get("/urls/new", (req, res) => {
+app.get("/urls/new", (req, res) => {   //****************
+ 
+ const user = usersDb[req.cookies["user_id"]]
+ if (!user) {
+   res.redirect("/login"); 
+ return ;
+  }  
   let templateVars = {
-    username: req.cookies["username"]
-  };
-  res.render("urls_new", templateVars);
-});
+    user
+    };
+     res.render("urls_new", templateVars);
+
+  });
 
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
-    username: req.cookies["username"]
+    user: usersDb[req.cookies["user_id"]]
+   // username: req.cookies["username"]
   };
   res.render("urls_show", templateVars);
 });
@@ -89,7 +127,7 @@ app.get("/login", (req, res) => {
 app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies["username"]
+    urls: urlsForUser(req.cookies["user_id"])
   };
   res.render("/urls_index", templateVars);
 });
@@ -104,8 +142,12 @@ app.get("/hello", (req, res) => {
 });
 
 //get register end point
-app.get("/register", (req, res) => {
-  res.render("register");
+app.get("/register", (req, res) => {   
+  const userID = req.cookies["user_id"]; //getting the user_id from the cookies
+  const templateVars = {
+    user: usersDb[userID],
+  }
+  res.render("register", templateVars);
 });
 
 //HERE GOES ALL THE POST
@@ -148,13 +190,24 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  // res.cookie("username", req.body.username);
-  res.redirect("/urls");
+  // res.cookie("username", req.body.username); ///======================
+  // make and if statement. 
+  const { email, password } = req.body; //this password viet directement form de text. 
+  //autenticate
+  const user = findUser(req.body.email);
+ 
+if (user && bcrypt.compareSync(password, user.password)){ 
+ //if (user && user.password === password){
+      res.cookie("user_id", user.id) 
+      res.redirect("/urls");
+    } else {
+      res.status(403).send("Email or Password is invalid");
+   }
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
-  res.redirect("/urls");
+ // res.clearCookie("username");
+  res.redirect("/");
 });
 
 // ALL MY LISTEN TO SEE IF THE PROGRAM WORKS.

@@ -12,10 +12,9 @@
     <title>Urls Show</title>
 
   </head>
-  <% include partials/_header %>
   <body style="font-size:20px; padding:50px;">  
     <br>
-    
+    <% include partials/_header %>
 
       <h1>ShortUrl : <%= shortURL %></h1> <br>
         <form class="form-inline" action="/urls/<%= shortURL %>" method="POST">

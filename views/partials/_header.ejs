@@ -2,10 +2,9 @@
 
 <font size="7">TinyApp</font>
 <!-- <h6> USER NAME : </h6> -->
-<% /login %>
+
     <% if(!user){ %>
-        <!--LOGIN FORM
-<form action="/login" method="post"><input type="text" name="username" placeholder= "<%= username %>" /> <input type="submit" value="Login" /> links -->
+   
         <a href="/register">
             <h6>REGISTER</h6>
         </a> <a href="/login">
@@ -15,13 +14,12 @@
 </form>
 <br />
 
-<!--IF NOT LOGIN (LOGOUT)-->
+<!--this comments does not remove the JavaScript if you use them so becarefull!!!!!!! --> 
 <% } else { %>
-
-    <form action="/logout" method="post">
-        <!-- <input type="text" name="username" placeholder= "<%= username %>"  disabled/> -->
-        <input type="submit" value="Logout" />
-    </form>
+    
+    <h3>Welcome user: <%= user.email %></h3> 
+    
+    <form action="/logout" method="post"> <input type="submit" value="Logout" /> </form>
 
     <% } %>
 
