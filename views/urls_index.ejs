@@ -10,13 +10,26 @@
 </style>
 </head>
 <body style="font-size:20px; padding:50px;">
+ 
+ 
   <% include partials/_header %>
   <!-- Add EJS code here -->
+
+  <!-- <a>link comes here </a> -->
+  
+  <p><a href="urls/urls_new" class="btn btn-primary" role="button">create new url</a></p> 
+  
   <% for (var mykey in urls) { %> 
-  <li> <label for="longURL"> <%= mykey %> :  </label><strong><%= urls[mykey].longURL %> <form method="POST" action="/urls/<%= mykey %>/delete"> <a href="urls/urls_show"> Edit URL   </a><button type="submit">delete</button> </form> </strong> </li>
+  
+    <li> <label for="longURL"> <%= mykey %> :  </label>
+    
+  <strong><%= urls[mykey].longURL %> <form method="POST" action="/urls/<%= mykey %>/delete"> 
+    
+    <p> <a href="urls/urls_show"> Edit URL   </p> </h4> <button type="submit">delete</button> </form> </strong> </li>
+ 
   <% } %>
   <br>
-  <link>link comes here </link> 
+ 
   <br>
 </body>
 </html>
